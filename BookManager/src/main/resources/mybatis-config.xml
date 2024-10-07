@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!-- 配置环境，通常包括数据库连接等信息 -->
+    <environments default="development">
+        <environment id="development">
+            <!-- 配置事务管理器，JDBC 表示使用 JDBC 自带的事务管理 -->
+            <transactionManager type="JDBC"/>
+
+            <!-- 数据库连接池配置 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/book_manage?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 配置映射器，指定映射文件的位置 -->
+    <mappers>
+        <!-- 使用基于类路径的方式 -->
+        <mapper class="book.manage.mapper.BookMapper"/>
+        <!-- 或者使用基于接口的方式 -->
+        <!-- <mapper class="com.example.mapper.StudentMapper"/> -->
+    </mappers>
+
+</configuration>
