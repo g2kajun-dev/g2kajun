@@ -26,6 +26,9 @@ public class Main {
                 System.out.println("===========");
                 System.out.println("input 1 add student into the class");
                 System.out.println("input 2 add books into the lib");
+                System.out.println("input 3 add del book");
+                System.out.println("输入4学生添加借阅信息");
+                System.out.println("输入5查阅借阅信息");
                 System.out.println("choose your option press any button quit");
                 int input = scanner.nextInt();
                 scanner.nextLine();
@@ -38,6 +41,15 @@ public class Main {
                         case 2:
                             addBook(scanner);
                             break;
+                        case 3:
+                            delBookById(scanner);
+                            break;
+                        case 4:
+                            addBorrow(scanner);
+                            break;
+                        case 5:
+                            showBorrow();
+                            break;
                         default:
                             return;
                     }
@@ -49,6 +61,31 @@ public class Main {
 
             }
         }
+    }
+
+    public static void addBorrow(Scanner scanner) {
+        System.out.println("请输入书id:");
+        String bid = scanner.nextLine();
+        int id = Integer.parseInt(bid);
+        System.out.println("请输入student id:");
+        String sid = scanner.nextLine();
+        int s_id = Integer.parseInt(sid);
+
+        SqlUtil.doSqlWork(bookMapper -> {
+            int result = bookMapper.addBorrow(s_id, id);
+            if (result > 0) System.out.println("success");
+
+        });
+
+    }
+
+    public static void showBorrow() {
+        System.out.println("日你妈");
+        SqlUtil.doSqlWork(bookMapper -> {
+            bookMapper.getBorrowList().forEach(borrow -> {
+                System.out.println(borrow.getStudent().getName()+" -> " + borrow.getBook().getTitle());
+            });
+        });
     }
 
     private static void addStudent(Scanner scanner) {
@@ -87,5 +124,13 @@ public class Main {
             log.info("插入成功" + book);
         });
 
+    }
+    private static void delBookById(Scanner scanner) {
+        System.out.println("please input the name of the book you want to del:");
+        String title = scanner.nextLine();
+        SqlUtil.doSqlWork(bookMapper -> {
+            bookMapper.delBookByName(title);
+            System.out.println("成功删除");
+        });
     }
 }
